@@ -5,6 +5,8 @@ import rego.v1
 
 default allow := false
 
+default needs_approval := false
+
 allow if {
     count(violations) == 0
 }

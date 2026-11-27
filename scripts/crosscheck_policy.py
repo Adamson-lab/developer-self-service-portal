@@ -28,7 +28,7 @@ def rego_decision(case: dict) -> dict | None:
         return None
     payload = {"template": case["template"], "request": {"requester": "x@bank.example", **case["request"]}}
     out = subprocess.run(
-        ["opa", "eval", "-d", str(REGO), "-I", "data.portal.decision", "--format", "json"],
+        ["opa", "eval", "-d", str(REGO), "-I", "data.portal.decision.decision", "--format", "json"],
         input=json.dumps(payload), capture_output=True, text=True, check=True,
     )
     value = json.loads(out.stdout)["result"][0]["expressions"][0]["value"]
