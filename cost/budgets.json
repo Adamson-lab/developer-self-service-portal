@@ -1,0 +1,11 @@
+{
+  "_comment": "Monthly ceilings per template and environment. Mirrors catalog/templates.yaml; a CI check fails if they drift.",
+  "currency": "USD",
+  "ceilings": {
+    "sandbox-web": { "dev": 150 },
+    "app-staging": { "staging": 2500 },
+    "payments-prod": { "prod": 40000 }
+  },
+  "alert_thresholds_percent": [50, 80, 100],
+  "notify": ["finops@bank.example", "platform-approvers"]
+}

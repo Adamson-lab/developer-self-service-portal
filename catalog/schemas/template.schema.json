@@ -1,0 +1,20 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://portal.example/schemas/template.schema.json",
+  "title": "Golden-path template",
+  "type": "object",
+  "required": ["title", "description", "environments", "allowed_teams", "max_monthly_usd", "approval_required", "iac_module"],
+  "additionalProperties": false,
+  "properties": {
+    "title": { "type": "string", "minLength": 3, "maxLength": 80 },
+    "description": { "type": "string", "minLength": 10, "maxLength": 240 },
+    "environments": {
+      "type": "array", "minItems": 1, "uniqueItems": true,
+      "items": { "enum": ["dev", "staging", "prod"] }
+    },
+    "allowed_teams": { "type": "array", "minItems": 1, "items": { "type": "string" } },
+    "max_monthly_usd": { "type": "number", "exclusiveMinimum": 0 },
+    "approval_required": { "type": "boolean" },
+    "iac_module": { "type": "string", "pattern": "^[a-z0-9-]+$" }
+  }
+}

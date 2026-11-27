@@ -1,0 +1,15 @@
+# Service-level objectives for the portal. Targets are proposals for sign-off by Platform
+# and Security; they are not measured results.
+slos:
+  - name: request-decision-latency
+    objective: "99% of POST /requests return a policy decision within 500 ms"
+    indicator: http_request_duration_seconds{route="/requests",method="POST"}
+    target: 0.99
+  - name: provisioning-success
+    objective: "99.5% of approved requests reach ready without manual intervention"
+    indicator: request_outcomes_total{outcome="ready"} / request_outcomes_total
+    target: 0.995
+  - name: audit-integrity
+    objective: "GET /audit/verify returns intact=true on every scheduled check"
+    indicator: audit_verify_intact
+    target: 1.0

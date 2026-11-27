@@ -1,0 +1,23 @@
+# Alert rules, Prometheus-compatible. Routed to the platform on-call rota.
+groups:
+  - name: portal-controls
+    rules:
+      - alert: AuditChainBroken
+        expr: audit_verify_intact == 0
+        for: 0m
+        labels: { severity: critical, owner: security }
+        annotations:
+          summary: "Audit hash chain failed verification (G-07)"
+          runbook: docs/runbooks/audit-chain-broken.md
+      - alert: ProvisioningFailureRateHigh
+        expr: sum(rate(request_outcomes_total{outcome="failed"}[15m])) / sum(rate(request_outcomes_total[15m])) > 0.05
+        for: 10m
+        labels: { severity: warning, owner: platform }
+        annotations:
+          summary: "More than 5% of provisioning attempts failing"
+          runbook: docs/runbooks/provisioning-failure.md
+      - alert: SelfApprovalAttempt
+        expr: increase(approval_denied_total{reason="self_approval"}[1h]) > 0
+        labels: { severity: warning, owner: security }
+        annotations:
+          summary: "A requester attempted to approve their own request (G-06)"

@@ -1,0 +1,9 @@
+{
+  "_comment": "Expires non-production environments so forgotten sandboxes do not accumulate spend.",
+  "schedule_cron_utc": "0 2 * * *",
+  "rules": [
+    { "template": "sandbox-web", "environment": "dev", "ttl_days": 14, "action": "destroy_after_notice", "notice_days": 3 },
+    { "template": "app-staging", "environment": "staging", "ttl_days": 30, "action": "destroy_after_notice", "notice_days": 5 },
+    { "template": "payments-prod", "environment": "prod", "ttl_days": null, "action": "never_auto_expire", "notice_days": null }
+  ]
+}

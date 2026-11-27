@@ -1,0 +1,26 @@
+[
+  {
+    "name": "sandbox within ceiling",
+    "template": {"name": "sandbox-web", "environments": ["dev"], "allowed_teams": ["any"], "max_monthly_usd": 150, "approval_required": false},
+    "request": {"team": "web", "environment": "dev", "estimated_monthly_usd": 50},
+    "expect": {"allowed": true, "needs_approval": false}
+  },
+  {
+    "name": "prod payments by entitled team",
+    "template": {"name": "payments-prod", "environments": ["prod"], "allowed_teams": ["payments", "core-banking"], "max_monthly_usd": 40000, "approval_required": true},
+    "request": {"team": "payments", "environment": "prod", "estimated_monthly_usd": 1000},
+    "expect": {"allowed": true, "needs_approval": true}
+  },
+  {
+    "name": "marketing denied prod landing zone",
+    "template": {"name": "payments-prod", "environments": ["prod"], "allowed_teams": ["payments", "core-banking"], "max_monthly_usd": 40000, "approval_required": true},
+    "request": {"team": "marketing", "environment": "prod", "estimated_monthly_usd": 100},
+    "expect": {"allowed": false, "needs_approval": false}
+  },
+  {
+    "name": "cost over ceiling",
+    "template": {"name": "sandbox-web", "environments": ["dev"], "allowed_teams": ["any"], "max_monthly_usd": 150, "approval_required": false},
+    "request": {"team": "web", "environment": "dev", "estimated_monthly_usd": 999},
+    "expect": {"allowed": false, "needs_approval": false}
+  }
+]

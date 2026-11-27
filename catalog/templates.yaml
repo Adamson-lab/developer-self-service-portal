@@ -1,0 +1,29 @@
+# Golden-path templates. Adding one is a reviewed PR to the platform team (see .github/ISSUE_TEMPLATE/new-template.md).
+# Every key is validated at API startup by services/api/core/catalog.py.
+templates:
+  sandbox-web:
+    title: Web application sandbox
+    description: Isolated non-production app environment with managed database and CI hooks
+    environments: [dev]
+    allowed_teams: [any]
+    max_monthly_usd: 150
+    approval_required: false
+    iac_module: sandbox-web
+
+  app-staging:
+    title: Application staging
+    description: Staging environment mirroring production topology at reduced scale
+    environments: [staging]
+    allowed_teams: [any]
+    max_monthly_usd: 2500
+    approval_required: false
+    iac_module: app-staging
+
+  payments-prod:
+    title: Payments production landing zone
+    description: Hardened production zone with private networking, HSM-backed keys and full logging
+    environments: [prod]
+    allowed_teams: [payments, core-banking]
+    max_monthly_usd: 40000
+    approval_required: true
+    iac_module: payments-prod

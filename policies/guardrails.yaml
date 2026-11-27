@@ -1,0 +1,30 @@
+# Source of truth for portal guardrails. Reviewed by Security and Compliance; changes need CODEOWNERS approval.
+guardrails:
+  - id: G-01
+    rule: Production environments always require a named human approver.
+    enforced_by: core.policy.evaluate (needs_approval); policies/rego/portal.rego
+    evidence: tests/unit/test_policy.py::test_prod_always_needs_approval
+  - id: G-02
+    rule: Requests above a template's monthly cost ceiling are rejected, not queued.
+    enforced_by: core.policy.evaluate (ceiling check)
+    evidence: tests/unit/test_policy.py::test_cost_ceiling_rejects
+  - id: G-03
+    rule: Teams may only request templates they are entitled to.
+    enforced_by: core.policy.evaluate (allowed_teams)
+    evidence: tests/unit/test_policy.py::test_unentitled_team_rejected
+  - id: G-04
+    rule: Every state change is written to the audit log with actor and timestamp.
+    enforced_by: core.audit.record, called from routes/requests.py
+    evidence: tests/integration/test_api.py::test_audit_trail_is_recorded
+  - id: G-05
+    rule: Provisioning runs only from approved requests, never directly from submission.
+    enforced_by: routes/requests.py::_provision state gate
+    evidence: tests/integration/test_api.py::test_provision_refuses_rejected_state
+  - id: G-06
+    rule: Segregation of duties. A requester cannot approve their own request.
+    enforced_by: core.policy.can_approve
+    evidence: tests/integration/test_api.py::test_self_approval_is_blocked
+  - id: G-07
+    rule: The audit log is tamper-evident. Any edit or deletion is detectable.
+    enforced_by: core.audit.verify, exposed at GET /audit/verify
+    evidence: tests/unit/test_audit_chain.py

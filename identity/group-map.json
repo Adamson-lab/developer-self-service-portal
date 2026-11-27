@@ -1,0 +1,10 @@
+{
+  "_comment": "Maps directory groups to team entitlements. Synced from Entra ID nightly; manual edits are overwritten.",
+  "groups": {
+    "grp-web-engineering": { "team": "web", "templates": ["sandbox-web", "app-staging"] },
+    "grp-payments-engineering": { "team": "payments", "templates": ["sandbox-web", "app-staging", "payments-prod"] },
+    "grp-corebanking-engineering": { "team": "core-banking", "templates": ["sandbox-web", "app-staging", "payments-prod"] },
+    "grp-platform-approvers": { "team": "platform", "approver": true },
+    "grp-security-approvers": { "team": "security", "approver": true }
+  }
+}
